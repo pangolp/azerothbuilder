@@ -51,7 +51,7 @@ const routes = [
     component: QuestRequestItemsLocale
   },
   {
-    path: '*',
+    path: '/*',
     name: 'Not Found',
     component: NotFound
   }
