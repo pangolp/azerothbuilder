@@ -6,6 +6,8 @@
                 <li class="breadcrumb-item active" aria-current="page">Quest Request Items Locale</li>
             </ol>
         </nav>
+        <p>This is the text that is displayed while the quest was not completed. If an npc gives us a quest, and if the sign is grayed out, the text that we will see while we have not completed the quest, will be this.</p>
+        <p>Este es el texto que se muestra mientras la misión no fue completada. Si un npc nos otorga una quest, y si signo se ve en gris, el texto que veremos mientras no hayamos completado la misión, será este.</p>
         <form class="mb-3">
             <div class="row">
                 <div class="col-12 col-md">
@@ -58,21 +60,29 @@
                     </div>
                 </div>
             </div>
+            <button type="button" class="btn btn-warning" @click="reset">Reset</button>
+            <button type="button" class="btn btn-success ml-3" @click="copySQL">Copy SQL</button>
         </form>
         <code id="code">
             <div v-if="Comment">
                 <span class="comment">-- {{ Comment }}</span>
             </div>
             <div>
-                <span>DELETE FROM</span> `quest_request_items_locale` <span>WHERE</span> `ID`={{ QuestRequestItemsLocale.ID }} <span>AND</span> `locale`="{{ QuestRequestItemsLocale.locale }}";
+                <span>DELETE FROM</span> `quest_request_items_locale` <span>WHERE</span> `ID`={{ QuestRequestItemsLocale.ID }} <span>AND</span> `locale`='{{ QuestRequestItemsLocale.locale }}';
             </div>
             <div>
                 <span>INSERT INTO</span> `quest_request_items_locale` (`ID`, `locale`, `CompletionText`, `VerifiedBuild`) <span>VALUES</span>
             </div>
             <div>
-                <span class="reset">({{ QuestRequestItemsLocale.ID }}, "{{ QuestRequestItemsLocale.locale }}", "{{ QuestRequestItemsLocale.CompletionText }}", {{ QuestRequestItemsLocale.VerifiedBuild }});</span>
+                <span class="reset">({{ QuestRequestItemsLocale.ID }}, '{{ QuestRequestItemsLocale.locale }}', '{{ QuestRequestItemsLocale.CompletionText }}', {{ QuestRequestItemsLocale.VerifiedBuild }});</span>
             </div>
         </code>
+        <div id="sql" hidden="hidden">
+            <div class="line" v-if="Comment">-- {{ Comment }}</div>
+            <div class="line">DELETE FROM `quest_request_items_locale` WHERE `ID`={{ QuestRequestItemsLocale.ID }} AND `locale`='{{ QuestRequestItemsLocale.locale }}';</div>
+            <div class="line">INSERT INTO `quest_request_items_locale` (`ID`, `locale`, `CompletionText`, `VerifiedBuild`) VALUES</div>
+            <div class="line">({{ QuestRequestItemsLocale.ID }}, '{{ QuestRequestItemsLocale.locale }}', '{{ QuestRequestItemsLocale.CompletionText }}', {{ QuestRequestItemsLocale.VerifiedBuild }});</div>
+        </div>
     </div>
 </template>
 
@@ -89,6 +99,29 @@ export default {
             Comment: ''
         }
     },
+    methods: {
+        reset() {
+            this.QuestRequestItemsLocale.ID = 0,
+            this.QuestRequestItemsLocale.locale = '',
+            this.QuestRequestItemsLocale.RewardText = '',
+            this.QuestRequestItemsLocale.VerifiedBuild = 18019,
+            this.Comment = ''
+        },
+        copySQL() {
+            let lines = document.getElementsByClassName('line')
+            let sqlsentencia = ""
+            let sentencias = [].map.call(lines, line => line.textContent)
+            for (let sentencia of sentencias) {
+                sqlsentencia += sentencia + '\n'
+            }
+            const textArea = document.createElement('textarea')
+            textArea.textContent = sqlsentencia
+            document.body.append(textArea)
+            textArea.select()
+            document.execCommand('copy')
+            textArea.setAttribute("hidden", "hidden")
+        }
+    }
 }
 </script>
 
