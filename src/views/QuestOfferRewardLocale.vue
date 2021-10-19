@@ -65,13 +65,13 @@
                 <span class="comment">-- {{ Comment }}</span>
             </div>
             <div>
-                <span>DELETE FROM</span> `quest_offer_reward_locale` <span>WHERE</span> `ID`={{ QuestOfferRewardLocale.ID }} <span>AND</span> `locale`="{{ QuestOfferRewardLocale.locale }}";
+                <span>DELETE FROM</span> `quest_offer_reward_locale` <span>WHERE</span> `ID`={{ QuestOfferRewardLocale.ID }} <span>AND</span> `locale`='{{ QuestOfferRewardLocale.locale }}';
             </div>
             <div>
                 <span>INSERT INTO</span> `quest_offer_reward_locale` (`ID`, `locale`, `RewardText`, `VerifiedBuild`) <span>VALUES</span>
             </div>
             <div>
-                <span class="reset">({{ QuestOfferRewardLocale.ID }}, "{{ QuestOfferRewardLocale.locale }}", "{{ QuestOfferRewardLocale.RewardText }}", {{ QuestOfferRewardLocale.VerifiedBuild }});</span>
+                <span class="reset">({{ QuestOfferRewardLocale.ID }}, '{{ QuestOfferRewardLocale.locale }}', '{{ QuestOfferRewardLocale.RewardText }}', {{ QuestOfferRewardLocale.VerifiedBuild }});</span>
             </div>
         </code>
     </div>
