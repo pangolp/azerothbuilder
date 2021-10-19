@@ -59,6 +59,7 @@
                 </div>
             </div>
             <button type="button" class="btn btn-warning" @click="reset">Reset</button>
+            <button type="button" class="btn btn-success ml-3" @click="copySQL">Copy SQL</button>
         </form>
         <code id="code">
             <div v-if="Comment">
@@ -74,6 +75,12 @@
                 <span class="reset">({{ QuestOfferRewardLocale.ID }}, '{{ QuestOfferRewardLocale.locale }}', '{{ QuestOfferRewardLocale.RewardText }}', {{ QuestOfferRewardLocale.VerifiedBuild }});</span>
             </div>
         </code>
+        <div id="sql" hidden="hidden">
+            <div class="line" v-if="Comment">-- {{ Comment }}</div>
+            <div class="line">DELETE FROM `quest_offer_reward_locale` WHERE `ID`={{ QuestOfferRewardLocale.ID }} AND `locale`='{{ QuestOfferRewardLocale.locale }}';</div>
+            <div class="line">INSERT INTO `quest_offer_reward_locale` (`ID`, `locale`, `RewardText`, `VerifiedBuild`) VALUES</div>
+            <div class="line">({{ QuestOfferRewardLocale.ID }}, '{{ QuestOfferRewardLocale.locale }}', '{{ QuestOfferRewardLocale.RewardText }}', {{ QuestOfferRewardLocale.VerifiedBuild }});</div>
+        </div>
     </div>
 </template>
 
@@ -97,36 +104,48 @@ export default {
             this.QuestOfferRewardLocale.RewardText = '',
             this.QuestOfferRewardLocale.VerifiedBuild = 18019,
             this.Comment = ''
+        },
+        copySQL() {
+            let lines = document.getElementsByClassName('line')
+            let sqlsentencia = ""
+            let sentencias = [].map.call(lines, line => line.textContent)
+            for (let sentencia of sentencias) {
+                sqlsentencia += sentencia + '\n'
+            }
+            const textArea = document.createElement('textarea')
+            textArea.textContent = sqlsentencia
+            document.body.append(textArea)
+            textArea.select()
+            document.execCommand('copy')
+            textArea.setAttribute("hidden", "hidden")
         }
     }
 }
 </script>
 
 <style scoped>
-  code {
-    color: #000;  
-  }
+    code {
+        color: #000;
+    }
 
-  code span {
-    color: #00F;
-  }
+    code span {
+        color: #00F;
+    }
 
+    #code p {
+        padding: 0;
+        margin: 0;
+    }
 
-  #code p {
-    padding: 0;
-    margin: 0;
-  }
+    form {
+        padding-top: 1em;
+    }
 
-  form {
-    padding-top: 1em;
-  }
+    .reset {
+        color: #000;
+    }
 
-  .reset
-  {
-    color: #000;
-  }
-
-  .comment {
-      color: #690808;
-  }
+    .comment {
+        color: #690808;
+    }
 </style>
