@@ -5,6 +5,8 @@
                 <li class="breadcrumb-item"><a href="#"><router-link to="/">Home</router-link></a></li>
                 <li class="breadcrumb-item active" aria-current="page">Quest Offer Reward Locale</li>
             </ol>
+        <p>This table is used to display the text when the mission is completed and delivered.</p>
+        <p>Esta tabla se utiliza, para mostrar el texto cuando se completó y se entrega la misión.</p>
         </nav>
         <form class="mb-3">
             <div class="row">
