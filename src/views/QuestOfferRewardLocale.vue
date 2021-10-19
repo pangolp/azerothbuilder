@@ -58,6 +58,7 @@
                     </div>
                 </div>
             </div>
+            <button type="button" class="btn btn-warning" @click="reset">Reset</button>
         </form>
         <code id="code">
             <div v-if="Comment">
@@ -89,6 +90,15 @@ export default {
             Comment: ''
         }
     },
+    methods: {
+        reset() {
+            this.QuestOfferRewardLocale.ID = 0,
+            this.QuestOfferRewardLocale.locale = '',
+            this.QuestOfferRewardLocale.RewardText = '',
+            this.QuestOfferRewardLocale.VerifiedBuild = 18019,
+            this.Comment = ''
+        }
+    }
 }
 </script>
 
