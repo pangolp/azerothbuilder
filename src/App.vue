@@ -2,10 +2,10 @@
     <MenuTop />
         <div class="container-fluid">
             <div class="row mt-3">
-                <div class="col-sm-12 col-md-4">
+                <div class="col-sm-12 col-md-3">
                     <AsideMenu />
                 </div>
-                <div class="col-sm-12 col-md-8">
+                <div class="col-sm-12 col-md-9">
                     <router-view/>
                 </div>
             </div>
