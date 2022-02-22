@@ -103,7 +103,7 @@ export default {
         reset() {
             this.QuestRequestItemsLocale.ID = 0,
             this.QuestRequestItemsLocale.locale = '',
-            this.QuestRequestItemsLocale.RewardText = '',
+            this.QuestRequestItemsLocale.CompletionText = '',
             this.QuestRequestItemsLocale.VerifiedBuild = 18019,
             this.Comment = ''
         },
@@ -126,30 +126,29 @@ export default {
 </script>
 
 <style scoped>
-  code {
-    color: #000;  
-  }
+code {
+    color: #000;
+}
 
-  code span {
+code span {
     color: #00F;
-  }
+}
 
 
-  #code p {
+#code p {
     padding: 0;
     margin: 0;
-  }
+}
 
-  form {
+form {
     padding-top: 1em;
-  }
+}
 
-  .reset
-  {
+.reset {
     color: #000;
-  }
+}
 
-  .comment {
-      color: #690808;
-  }
+.comment {
+    color: #690808;
+}
 </style>
