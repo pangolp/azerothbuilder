@@ -19,17 +19,15 @@
                 </div>
                 <div class="col-12 col-md">
                     <div class="form-group">
-                        <label for="localeFormControlSelect">locale</label>
-                        <select class="form-control" id="localeFormControlSelect" v-model="QuestRequestItemsLocale.locale">
-                            <option>koKR</option>
-                            <option>frFR</option>
-                            <option>deDE</option>
-                            <option>zhCN</option>
-                            <option>zhTW</option>
-                            <option>esES</option>
-                            <option>esMX</option>
-                            <option>ruRU</option>
-                        </select>
+                        <p>Locale</p>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="inlineCheckboxesES" value="esES" v-model="QuestRequestItemsLocale.locale">
+                            <label class="form-check-label" for="inlineCheckboxesES">esES</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="inlineCheckboxesMX" value="esMX" v-model="QuestRequestItemsLocale.locale">
+                            <label class="form-check-label" for="inlineCheckboxesMX">esMX</label>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -63,25 +61,49 @@
             <button type="button" class="btn btn-warning" @click="reset">Reset</button>
             <button type="button" class="btn btn-success ml-3" @click="copySQL">Copy SQL</button>
         </form>
-        <code id="code">
+        <code id="code" v-if="QuestRequestItemsLocale.locale.length == 1">
             <div v-if="Comment">
-                <span class="comment">-- {{ Comment }}</span>
+                <span class="comment">-- {{ Comment }} - ID {{ QuestRequestItemsLocale.ID }}</span>
             </div>
             <div>
-                <span>DELETE FROM</span> `quest_request_items_locale` <span>WHERE</span> `ID`={{ QuestRequestItemsLocale.ID }} <span>AND</span> `locale`='{{ QuestRequestItemsLocale.locale }}';
+                <span class="sql">DELETE FROM</span> `quest_request_items_locale` <span class="sql">WHERE</span> `ID`={{ QuestRequestItemsLocale.ID }} <span class="sql">AND</span> `locale`='{{ QuestRequestItemsLocale.locale[0] }}';
             </div>
             <div>
-                <span>INSERT INTO</span> `quest_request_items_locale` (`ID`, `locale`, `CompletionText`, `VerifiedBuild`) <span>VALUES</span>
+                <span class="sql">INSERT INTO</span> `quest_request_items_locale` (`ID`, `locale`, `CompletionText`, `VerifiedBuild`) <span class="sql">VALUES</span>
             </div>
             <div>
-                <span class="reset">({{ QuestRequestItemsLocale.ID }}, '{{ QuestRequestItemsLocale.locale }}', '{{ QuestRequestItemsLocale.CompletionText }}', {{ QuestRequestItemsLocale.VerifiedBuild }});</span>
+                <span class="reset">({{ QuestRequestItemsLocale.ID }}, '{{ QuestRequestItemsLocale.locale[0] }}', '{{ QuestRequestItemsLocale.CompletionText }}', {{ QuestRequestItemsLocale.VerifiedBuild }});</span>
             </div>
         </code>
-        <div id="sql" hidden="hidden">
-            <div class="line" v-if="Comment">-- {{ Comment }}</div>
-            <div class="line">DELETE FROM `quest_request_items_locale` WHERE `ID`={{ QuestRequestItemsLocale.ID }} AND `locale`='{{ QuestRequestItemsLocale.locale }}';</div>
+        <div id="sql" hidden="hidden" v-if="QuestRequestItemsLocale.locale.length == 1">
+            <div class="line" v-if="Comment">-- {{ Comment }} - ID {{ QuestRequestItemsLocale.ID }}</div>
+            <div class="line">DELETE FROM `quest_request_items_locale` WHERE `ID`={{ QuestRequestItemsLocale.ID }} AND `locale`='{{ QuestRequestItemsLocale.locale[0] }}';</div>
             <div class="line">INSERT INTO `quest_request_items_locale` (`ID`, `locale`, `CompletionText`, `VerifiedBuild`) VALUES</div>
-            <div class="line">({{ QuestRequestItemsLocale.ID }}, '{{ QuestRequestItemsLocale.locale }}', '{{ QuestRequestItemsLocale.CompletionText }}', {{ QuestRequestItemsLocale.VerifiedBuild }});</div>
+            <div class="line">({{ QuestRequestItemsLocale.ID }}, '{{ QuestRequestItemsLocale.locale[0] }}', '{{ QuestRequestItemsLocale.CompletionText }}', {{ QuestRequestItemsLocale.VerifiedBuild }});</div>
+        </div>
+        <code id="code" v-if="QuestRequestItemsLocale.locale.length == 2">
+            <div v-if="Comment">
+                <span class="comment">-- {{ Comment }} - ID {{ QuestRequestItemsLocale.ID }}</span>
+            </div>
+            <div>
+                <span class="sql">DELETE FROM</span> `quest_request_items_locale` <span class="sql">WHERE</span> `ID`={{ QuestRequestItemsLocale.ID }} <span class="sql">AND</span> <span v-if="QuestRequestItemsLocale.locale.length == 2">`locale` IN ('{{ QuestRequestItemsLocale.locale[0] }}', '{{ QuestRequestItemsLocale.locale[1]}}');</span>
+            </div>
+            <div>
+                <span class="sql">INSERT INTO</span> `quest_request_items_locale` (`ID`, `locale`, `CompletionText`, `VerifiedBuild`) <span class="sql">VALUES</span>
+            </div>
+            <div v-for="(locale, index) in QuestRequestItemsLocale.locale" :key="index">
+                <span class="reset" v-if="index == 0">({{ QuestRequestItemsLocale.ID }}, '{{ QuestRequestItemsLocale.locale[index] }}', '{{ QuestRequestItemsLocale.CompletionText }}', {{ QuestRequestItemsLocale.VerifiedBuild }}),</span>
+                <span class="reset" v-if="index == 1">({{ QuestRequestItemsLocale.ID }}, '{{ QuestRequestItemsLocale.locale[index] }}', '{{ QuestRequestItemsLocale.CompletionText }}', {{ QuestRequestItemsLocale.VerifiedBuild }});</span>
+            </div>
+        </code>
+        <div id="sql" hidden="hidden" v-if="QuestRequestItemsLocale.locale.length == 2">
+            <div class="line" v-if="Comment">-- {{ Comment }} - ID {{ QuestRequestItemsLocale.ID }}</div>
+            <div class="line">DELETE FROM `quest_request_items_locale` WHERE `ID`={{ QuestRequestItemsLocale.ID }} AND `locale` IN ('{{ QuestRequestItemsLocale.locale[0] }}', '{{ QuestRequestItemsLocale.locale[1]}}');</div>
+            <div class="line">INSERT INTO `quest_request_items_locale` (`ID`, `locale`, `CompletionText`, `VerifiedBuild`) VALUES</div>
+            <div v-for="(locale, index) in QuestRequestItemsLocale.locale" :key="index">
+                <div class="line" v-if="index == 0">({{ QuestRequestItemsLocale.ID }}, '{{ QuestRequestItemsLocale.locale[index] }}', '{{ QuestRequestItemsLocale.CompletionText }}', {{ QuestRequestItemsLocale.VerifiedBuild }}),</div>
+                <div class="line" v-if="index == 1">({{ QuestRequestItemsLocale.ID }}, '{{ QuestRequestItemsLocale.locale[index] }}', '{{ QuestRequestItemsLocale.CompletionText }}', {{ QuestRequestItemsLocale.VerifiedBuild }});</div>
+            </div>
         </div>
     </div>
 </template>
@@ -92,7 +114,7 @@ export default {
         return {
             QuestRequestItemsLocale: {
                 ID: 0,
-                locale: '',
+                locale: [],
                 CompletionText: '',
                 VerifiedBuild: 18019
             },
@@ -102,7 +124,7 @@ export default {
     methods: {
         reset() {
             this.QuestRequestItemsLocale.ID = 0,
-            this.QuestRequestItemsLocale.locale = '',
+            this.QuestRequestItemsLocale.locale = [],
             this.QuestRequestItemsLocale.CompletionText = '',
             this.QuestRequestItemsLocale.VerifiedBuild = 18019,
             this.Comment = ''
@@ -130,10 +152,9 @@ code {
     color: #000;
 }
 
-code span {
+.sql {
     color: #00F;
 }
-
 
 #code p {
     padding: 0;
