@@ -61,7 +61,9 @@
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link disabled" href="#">Quest template locale</a>
+        <a class="nav-link" href="#">
+          <router-link to="/quest-template-locale/">Quest template locale</router-link>
+        </a>
       </li>
     </ul>
   </div>

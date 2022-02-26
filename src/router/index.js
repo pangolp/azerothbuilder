@@ -7,6 +7,7 @@ import CreatureTextLocale from '../views/CreatureTextLocale.vue'
 import GameObjectTemplateLocale from '../views/GameObjectTemplateLocale'
 import QuestOfferRewardLocale from '../views/QuestOfferRewardLocale'
 import QuestRequestItemsLocale from '../views/QuestRequestItemsLocale'
+import QuestTemplateLocale from '../views/QuestTemplateLocale'
 
 const routes = [
   {
@@ -48,6 +49,11 @@ const routes = [
     path: '/quest-request-items-locale/',
     name: 'Quest request items locale',
     component: QuestRequestItemsLocale
+  },
+  {
+    path: '/quest-template-locale/',
+    name: 'Quest Template Locale',
+    component: QuestTemplateLocale
   }
 ]
 
