@@ -114,7 +114,7 @@ export default {
         return {
             QuestRequestItemsLocale: {
                 ID: 0,
-                locale: [],
+                locale: ['esES', 'esMX'],
                 CompletionText: '',
                 VerifiedBuild: 18019
             },
@@ -124,7 +124,7 @@ export default {
     methods: {
         reset() {
             this.QuestRequestItemsLocale.ID = 0,
-            this.QuestRequestItemsLocale.locale = [],
+            this.QuestRequestItemsLocale.locale = ['esES', 'esMX'],
             this.QuestRequestItemsLocale.CompletionText = '',
             this.QuestRequestItemsLocale.VerifiedBuild = 18019,
             this.Comment = ''
