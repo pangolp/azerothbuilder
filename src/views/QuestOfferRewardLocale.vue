@@ -19,17 +19,15 @@
                 </div>
                 <div class="col-12 col-md">
                     <div class="form-group">
-                        <label for="localeFormControlSelect">locale</label>
-                        <select class="form-control" id="localeFormControlSelect" v-model="QuestOfferRewardLocale.locale">
-                            <option>koKR</option>
-                            <option>frFR</option>
-                            <option>deDE</option>
-                            <option>zhCN</option>
-                            <option>zhTW</option>
-                            <option>esES</option>
-                            <option>esMX</option>
-                            <option>ruRU</option>
-                        </select>
+                        <p>Locale</p>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="inlineCheckboxesES" value="esES" v-model="QuestOfferRewardLocale.locale">
+                            <label class="form-check-label" for="inlineCheckboxesES">esES</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="inlineCheckboxesMX" value="esMX" v-model="QuestOfferRewardLocale.locale">
+                            <label class="form-check-label" for="inlineCheckboxesMX">esMX</label>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -63,25 +61,51 @@
             <button type="button" class="btn btn-warning" @click="reset">Reset</button>
             <button type="button" class="btn btn-success ml-3" @click="copySQL">Copy SQL</button>
         </form>
-        <code id="code">
+        <code id="code" v-if="QuestOfferRewardLocale.locale.length == 1">
             <div v-if="Comment">
-                <span class="comment">-- {{ Comment }}</span>
+                <span class="comment">-- {{ Comment }} - ID {{ QuestOfferRewardLocale.ID }}</span>
             </div>
             <div>
-                <span>DELETE FROM</span> `quest_offer_reward_locale` <span>WHERE</span> `ID`={{ QuestOfferRewardLocale.ID }} <span>AND</span> `locale`='{{ QuestOfferRewardLocale.locale }}';
+                <span class="sql">DELETE FROM</span> `quest_offer_reward_locale` <span class="sql">WHERE</span> `ID`={{ QuestOfferRewardLocale.ID }} <span class="sql">AND</span> `locale`='{{ QuestOfferRewardLocale.locale[0] }}';
             </div>
             <div>
-                <span>INSERT INTO</span> `quest_offer_reward_locale` (`ID`, `locale`, `RewardText`, `VerifiedBuild`) <span>VALUES</span>
+                <span class="sql">INSERT INTO</span> `quest_offer_reward_locale` (`ID`, `locale`, `RewardText`, `VerifiedBuild`) <span class="sql">VALUES</span>
             </div>
             <div>
-                <span class="reset">({{ QuestOfferRewardLocale.ID }}, '{{ QuestOfferRewardLocale.locale }}', '{{ QuestOfferRewardLocale.RewardText }}', {{ QuestOfferRewardLocale.VerifiedBuild }});</span>
+                <span class="reset">({{ QuestOfferRewardLocale.ID }}, '{{ QuestOfferRewardLocale.locale[0] }}', '{{ QuestOfferRewardLocale.RewardText }}', {{ QuestOfferRewardLocale.VerifiedBuild }});</span>
             </div>
         </code>
-        <div id="sql" hidden="hidden">
-            <div class="line" v-if="Comment">-- {{ Comment }}</div>
-            <div class="line">DELETE FROM `quest_offer_reward_locale` WHERE `ID`={{ QuestOfferRewardLocale.ID }} AND `locale`='{{ QuestOfferRewardLocale.locale }}';</div>
+        <div id="sql" hidden="hidden" v-if="QuestOfferRewardLocale.locale.length == 1">
+            <div class="line" v-if="Comment">-- {{ Comment }} - ID {{ QuestOfferRewardLocale.ID }}</div>
+            <div class="line">DELETE FROM `quest_offer_reward_locale` WHERE `ID`={{ QuestOfferRewardLocale.ID }} AND `locale`='{{ QuestOfferRewardLocale.locale[0] }}';</div>
             <div class="line">INSERT INTO `quest_offer_reward_locale` (`ID`, `locale`, `RewardText`, `VerifiedBuild`) VALUES</div>
-            <div class="line">({{ QuestOfferRewardLocale.ID }}, '{{ QuestOfferRewardLocale.locale }}', '{{ QuestOfferRewardLocale.RewardText }}', {{ QuestOfferRewardLocale.VerifiedBuild }});</div>
+            <div class="line">({{ QuestOfferRewardLocale.ID }}, '{{ QuestOfferRewardLocale.locale[0] }}', '{{ QuestOfferRewardLocale.RewardText }}', {{ QuestOfferRewardLocale.VerifiedBuild }});</div>
+        </div>
+        <code id="code" v-if="QuestOfferRewardLocale.locale.length == 2">
+            <div v-if="Comment">
+                <span class="comment">-- {{ Comment }} - ID {{ QuestOfferRewardLocale.ID }}</span>
+            </div>
+            <div>
+                <span class="sql">DELETE FROM</span> `quest_offer_reward_locale` <span class="sql">WHERE</span> `ID`={{ QuestOfferRewardLocale.ID }} <span class="sql">AND</span> <span v-if="QuestOfferRewardLocale.locale.length == 2">`locale` IN ('{{ QuestOfferRewardLocale.locale[0] }}', '{{ QuestOfferRewardLocale.locale[1]}}');</span>
+            </div>
+            <div>
+                <span class="sql">INSERT INTO</span> `quest_offer_reward_locale` (`ID`, `locale`, `RewardText`, `VerifiedBuild`) <span class="sql">VALUES</span>
+            </div>
+            <div>
+                <div v-for="(locale, index) in QuestOfferRewardLocale.locale" :key="index">
+                    <span class="reset" v-if="index == 0">({{ QuestOfferRewardLocale.ID }}, '{{ QuestOfferRewardLocale.locale[index] }}', '{{ QuestOfferRewardLocale.RewardText }}', {{ QuestOfferRewardLocale.VerifiedBuild }}),</span>
+                    <span class="reset" v-if="index == 1">({{ QuestOfferRewardLocale.ID }}, '{{ QuestOfferRewardLocale.locale[index] }}', '{{ QuestOfferRewardLocale.RewardText }}', {{ QuestOfferRewardLocale.VerifiedBuild }});</span>
+                </div>
+            </div>
+        </code>
+        <div id="sql" hidden="hidden" v-if="QuestOfferRewardLocale.locale.length == 2">
+            <div class="line" v-if="Comment">-- {{ Comment }} - ID {{ QuestOfferRewardLocale.ID }}</div>
+            <div class="line">DELETE FROM `quest_offer_reward_locale` WHERE `ID`={{ QuestOfferRewardLocale.ID }} AND `locale` IN ('{{ QuestOfferRewardLocale.locale[0] }}', '{{ QuestOfferRewardLocale.locale[1]}}');</div>
+            <div class="line">INSERT INTO `quest_offer_reward_locale` (`ID`, `locale`, `RewardText`, `VerifiedBuild`) VALUES</div>
+            <div v-for="(locale, index) in QuestOfferRewardLocale.locale" :key="index">
+                <div class="line" v-if="index == 0">({{ QuestOfferRewardLocale.ID }}, '{{ QuestOfferRewardLocale.locale[index] }}', '{{ QuestOfferRewardLocale.RewardText }}', {{ QuestOfferRewardLocale.VerifiedBuild }}),</div>
+                <div class="line" v-if="index == 1">({{ QuestOfferRewardLocale.ID }}, '{{ QuestOfferRewardLocale.locale[index] }}', '{{ QuestOfferRewardLocale.RewardText }}', {{ QuestOfferRewardLocale.VerifiedBuild }});</div>
+            </div>
         </div>
     </div>
 </template>
@@ -92,7 +116,7 @@ export default {
         return {
             QuestOfferRewardLocale: {
                 ID: 0,
-                locale: '',
+                locale: ['esES', 'esMX'],
                 RewardText: '',
                 VerifiedBuild: 18019
             },
@@ -102,7 +126,7 @@ export default {
     methods: {
         reset() {
             this.QuestOfferRewardLocale.ID = 0,
-            this.QuestOfferRewardLocale.locale = '',
+            this.QuestOfferRewardLocale.locale = ['esES', 'esMX'],
             this.QuestOfferRewardLocale.RewardText = '',
             this.QuestOfferRewardLocale.VerifiedBuild = 18019,
             this.Comment = ''
@@ -130,7 +154,7 @@ export default {
         color: #000;
     }
 
-    code span {
+    .sql {
         color: #00F;
     }
 
